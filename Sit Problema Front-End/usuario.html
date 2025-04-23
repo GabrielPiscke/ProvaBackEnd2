@@ -48,22 +48,22 @@
             
             // ESTRUTURE O OBJETO NO FORMATO JSON
            const formData = {
-            "nome": String(document.getElementById('nome').value),
-            "sobrenome": String(document.getElementById('sobrenome').value),
-            "cpf": String(document.getElementById('cpf').value),
-            "email": String(document.getElementById('email').value),
-            "username": String(document.getElementById('username').value),
-            "senha": Number(document.getElementById('senha').value),
-            "dataNascimento": Date(document.getElementById('dataNascimento').value)
+            nome: String(document.getElementById('nome').value),
+            sobrenome: String(document.getElementById('sobrenome').value),
+            cpf: String(document.getElementById('cpf').value),
+            email: String(document.getElementById('email').value),
+            username: String(document.getElementById('username').value),
+            senha: Number(document.getElementById('senha').value),
+            dataNascimento: document.getElementById('dataNascimento').value
             }
 
-            return formData
+            return formData;
         }
 
         async function postUsuario(event) {
             event.preventDefault();
             
-            let formData = criarObjetoParaEnviar();
+            const formData = criarObjetoParaEnviar();
             
             try {
                 let response = await fetch("http://localhost:8080/usuario", {

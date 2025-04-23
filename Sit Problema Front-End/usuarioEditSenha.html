@@ -14,7 +14,7 @@
         <input type="text" name="username" id="username" required><br><br>
 
         <label>Senha:</label>
-        <input type="text" name="senha" id="senha" required><br><br>
+        <input type="number" name="senha" id="senha" required><br><br>
         
         <button type="submit">Enviar</button>
     </form>
@@ -61,10 +61,12 @@
 
         //## Enviar usuario para salvar(POST)
         function criarObjetoJson(){
-            
             // ESTRUTURE O OBJETO NO FORMATO JSON
+            const formData = {
+            senha: document.getElementById('senha').value
+            }
 
-            return formData
+            return formData;
         }
 
         async function putUsuario(event) {
@@ -74,7 +76,7 @@
             let formData = criarObjetoJson()
 
             try {
-                let response = await fetch(`http://localhost:8080/usuario/${id}/senha`, {
+                let response = await fetch(`http://localhost:8080/usuario/senha/${id}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(formData)

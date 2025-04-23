@@ -32,6 +32,7 @@ public class UsuarioController {
         }else{
             return usuarioService.getAll();
         }
+        
     }
 
     @GetMapping("/{id}")

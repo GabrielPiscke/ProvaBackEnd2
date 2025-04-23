@@ -12,7 +12,6 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class UsuarioDto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

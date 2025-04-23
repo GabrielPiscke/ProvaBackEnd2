@@ -10,10 +10,10 @@
         <input type="text" name="nome" id="nome" required><br><br>
         
         <label>Sobrenome:</label>
-        <input type="sobrenome" name="sobrenome" id="sobrenome" required><br><br>
+        <input type="text" name="sobrenome" id="sobrenome" required><br><br>
 
         <label>CPF:</label>
-        <input type="cpf" name="cpf" id="cpf" required><br><br>
+        <input type="text" name="cpf" id="cpf" required><br><br>
 
         <label>E-mail:</label>
         <input type="text" name="email" id="email" required><br><br>
@@ -22,7 +22,7 @@
         <input type="text" name="username" id="username" required><br><br>
 
         <label>Senha:</label>
-        <input type="text" name="senha" id="senha" required><br><br>
+        <input type="number" name="senha" id="senha" required><br><br>
 
         <label>Data Nascimento:</label>
         <input type="date" name="dataNascimento" id="dataNascimento" required><br><br>
@@ -47,6 +47,15 @@
         function criarObjetoParaEnviar(){
             
             // ESTRUTURE O OBJETO NO FORMATO JSON
+           const formData = {
+            "nome": String(document.getElementById('nome').value),
+            "sobrenome": String(document.getElementById('sobrenome').value),
+            "cpf": String(document.getElementById('cpf').value),
+            "email": String(document.getElementById('email').value),
+            "username": String(document.getElementById('username').value),
+            "senha": Number(document.getElementById('senha').value),
+            "dataNascimento": Date(document.getElementById('dataNascimento').value)
+            }
 
             return formData
         }

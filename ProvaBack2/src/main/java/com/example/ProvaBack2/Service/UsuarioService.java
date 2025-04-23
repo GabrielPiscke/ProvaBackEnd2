@@ -49,13 +49,8 @@ public class UsuarioService {
         return usuariorepository.findAllByNome(nome);
 
     }
-    public Optional<UsuarioDto> getByCpf(String cpf){
-        Optional<Usuario> optionalUsuario = usuariorepository.findByCpf(cpf);
-        if(optionalUsuario.isPresent()){
-            return Optional.of(this.toDTO(optionalUsuario.get()));
-        }else {
-            return Optional.empty();
-        }
+    public List<Usuario> getByCpf(String cpf){
+        return usuariorepository.findByCpf(cpf);
     }
 
     public Optional<UsuarioDto> getById(Long id){

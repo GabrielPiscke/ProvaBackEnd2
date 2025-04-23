@@ -38,7 +38,14 @@
         <input type="text" name="nomeBusca" id="nomeBusca"><br><br>
         <button type="submit">Carregar Usuarios</button>
     </form>
-
+    <br>
+    <form id="cpfBuscaUsuario">
+        <label>Cpf do Usuario:</label>
+        <input type="text" name="cpfBusca" id="cpfBusca"><br><br>
+        <button type="submit">Filtrar Cpf</button>
+    </form>
+    <br>
+    <hr>
     <ul id="listaUsuarios"></ul>
 
 
@@ -118,6 +125,36 @@
                 lista.appendChild(item);
             });
         }
+        function criarUsuarioCpf(data){
+            let lista = document.getElementById("listaUsuarios");
+            lista.innerHTML = "";
+            data.forEach(usuario => {
+                let item = document.createElement("li");
+                item.textContent = `ID: ${usuario.id} - Nome: ${usuario.nome} - Sobrenome: ${usuario.sobrenome} - CPF: ${usuario.cpf}
+                    - Email: ${usuario.email} - Username: ${usuario.username} - Senha: ${usuario.senha} - Data Nascimento: ${usuario.dataNascimento}`;
+                
+                // botão de editar
+                let btnLink = document.createElement("button");
+                btnLink.textContent = "Editar";
+                btnLink.target = "_blank";
+                btnLink.style.marginLeft = "10px";
+                btnLink.onclick = function() {
+                    window.open(`usuarioEdit.html?id=${usuario.id}`, '_blank');
+                };
+                item.appendChild(btnLink);
+
+                // botão de deletar
+                let btnDeletar = document.createElement("button")
+                btnDeletar.textContent = "Deletar";
+                btnDeletar.style.marginLeft = "10px";
+                btnDeletar.onclick = function(){
+                    deletarUsuario(usuario.id)
+                }
+                item.appendChild(btnDeletar);
+
+                lista.appendChild(item);
+            });
+        }
         
         async function getUsuarios(event) {
             event.preventDefault()
@@ -136,7 +173,31 @@
                 }
     
                 let data = await response.json()
+                console.log(data)
                 criarListaDeUsuarios(data)
+            } catch (error) {
+                alert("Erro na requisição: " + error.message)
+            }
+        }
+
+        async function getUsuarioCpf(event) {
+            event.preventDefault()
+
+            let cpfBusca = document.getElementById("cpfBusca").value; // acrecentando filtro de nome a busca, caso necessário
+            try {
+                let response = await fetch(`http://localhost:8080/usuario?cpf=${cpfBusca}`, {
+                method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                });
+    
+                if(!response.ok){
+                    alert("Erro do back-end" + response.status)
+                    return
+                }
+    
+                let data = await response.json()
+                console.log(data);
+                criarUsuarioCpf(data);
             } catch (error) {
                 alert("Erro na requisição: " + error.message)
             }
@@ -165,6 +226,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("usuarioForm").addEventListener("submit", postUsuario);
             document.getElementById("usuarioBusca").addEventListener("submit", getUsuarios);
+            document.getElementById("cpfBuscaUsuario").addEventListener("submit", getUsuarioCpf);
         });
     </script>
 </body>

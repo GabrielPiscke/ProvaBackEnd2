@@ -25,29 +25,23 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<Usuario> getAll(@RequestParam(required = false) String nome){
+    public List<Usuario> getAll(@RequestParam(required = false) String nome, @RequestParam(required = false) String cpf ){
 
         if(nome != null && !nome.isEmpty()){
             return usuarioService.getByNome(nome);
-        }else{
+        }if(nome != null && !nome.isEmpty() && cpf != null && !cpf.isEmpty()){
+            return usuarioService.getByCpf(cpf);
+        }if(cpf != null && !cpf.isEmpty()){
+            return usuarioService.getByCpf(cpf);
+        }
+        else{
             return usuarioService.getAll();
         }
-        
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDto> getById(@PathVariable Long id){
         Optional<UsuarioDto> usuarioDTO = usuarioService.getById(id);
-        if(usuarioDTO.isPresent()){
-            return ResponseEntity.ok(usuarioDTO.get());
-        }else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
-
-    @GetMapping("/cpf/{cpf}")
-    public ResponseEntity<UsuarioDto> getByCpf(@PathVariable String cpf){
-        Optional<UsuarioDto> usuarioDTO = usuarioService.getByCpf(cpf);
         if(usuarioDTO.isPresent()){
             return ResponseEntity.ok(usuarioDTO.get());
         }else {
@@ -64,6 +58,7 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @PutMapping("/senha/{id}")
     public ResponseEntity<UsuarioDto> updateSenha(@PathVariable Long id, @RequestBody UsuarioDto usuarioDTO){
         Optional<UsuarioDto> usuarioDtoOptional = usuarioService.updateSenha(id, usuarioDTO);
